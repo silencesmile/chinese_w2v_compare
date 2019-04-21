@@ -1,3 +1,4 @@
+import gensim
 import glob
 
 import sys
@@ -11,16 +12,27 @@ from gensim import models
 
 logger = logging.getLogger(__name__)
 
+# 3个文件辅助使用
+# MODEL_PATH="../wiki_chinese/model/wiki_corpus.bin"
+
+# 单独一个文件即可
+MODEL_PATH="../wiki_chinese/model/wiki_corpus_binary.bin"
+
+
 sys.path.append("./")
 
 class AvgWord2vec(object):
     """用word2vec+平均词向量的方式生成句子向量"""
 
-    def __init__(self,
-                 w2v_model_path="../wiki_chinese/model/wiki_corpus.bin"):
+    def __init__(self, w2v_model_path=MODEL_PATH):
 
         # self._load_w2v_model(w2v_model_path)
-        self.w2v_model = models.Word2Vec.load(w2v_model_path)
+        # 加载3个一组的模型
+        # self.w2v_model = models.Word2Vec.load(w2v_model_path)
+
+        # 加载独立模型文件
+        self.w2v_model = gensim.models.KeyedVectors.load_word2vec_format(MODEL_PATH,
+                                                                binary=True)
 
         self.tokenizer = JiebaTokenizer()
 

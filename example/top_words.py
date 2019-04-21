@@ -3,13 +3,18 @@
 # @Author  : yangmingxing
 # @File    : top_words.py
 # @Software: PyCharm
-
+import gensim
 import logging
 from gensim import models
 
 def test():
     logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s",level=logging.INFO)
-    model = models.Word2Vec.load("../wiki_chinese/model/wiki_corpus.bin")
+    # 250维 加载3个一组的模型文件
+    # model = models.Word2Vec.load("../wiki_chinese/model/wiki_corpus.model")
+
+    # 250维  加载独立模型 模型为二进制文件  使用该模型时修改avg_w2v.py 文件中的 51行的模型维度
+    model = gensim.models.KeyedVectors.load_word2vec_format("../wiki_chinese/model/wiki_corpus_binary.bin", binary=True)
+
     #输入一个词找出相似的前10个词
     one_corpus = ["人工智能"]
 
